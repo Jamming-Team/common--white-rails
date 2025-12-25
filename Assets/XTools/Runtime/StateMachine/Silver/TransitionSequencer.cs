@@ -19,14 +19,14 @@ namespace XTools.SM.Silver {
         public void RequestTransition(IState from, IState to) {
             // machine.ChangeState(from, to);
             if (to == null || from == null) return;
-            // if (_sequencer != null) {
-            //     _pending = (from, to);
-            //     return;
-            // }
-            //
-            // BeginTransition(from, to);
+            if (_sequencer != null) {
+                _pending = (from, to);
+                return;
+            }
+            
+            BeginTransition(from, to);
 
-            machine.ChangeState(from, to);
+            // machine.ChangeState(from, to);
         }
 
         static List<PhaseStep> GatherPhaseSteps(List<IState> chain, bool deactivate) {
@@ -68,32 +68,47 @@ namespace XTools.SM.Silver {
         CancellationTokenSource _cts;
         public readonly bool useSequential = true;
 
-        void BeginTransition(IState from, IState to) {
-            _cts?.Cancel();
-            _cts = new CancellationTokenSource();
-            var lca = Lca(from, to);
-            var exitChain = StatesToExit(from, lca);
-            var enterChain = StatesToEnter(to, lca);
+        // void BeginTransition(IState from, IState to) {
+        //     _cts?.Cancel();
+        //     _cts = new CancellationTokenSource();
+        //     var lca = Lca(from, to);
+        //     var exitChain = StatesToExit(from, lca);
+        //     var enterChain = StatesToEnter(to, lca);
+        //
+        //     // 1. Deactivate the "old branch"
+        //     var exitSteps = GatherPhaseSteps(exitChain, true);
+        //     // _sequencer = new NoopPhase();
+        //     _sequencer = useSequential
+        //         ? new SequentialPhase(exitSteps, _cts.Token)
+        //         : new ParallelPhase(exitSteps, _cts.Token);
+        //     _sequencer.Start();
+        //
+        //     _nextPhase = () => {
+        //         // 2. Change IState
+        //         machine.ChangeState(from, to);
+        //         // 3. Activate the "new branch"
+        //         var enterSteps = GatherPhaseSteps(enterChain, false);
+        //         // _sequencer = new NoopPhase();
+        //         _sequencer = useSequential
+        //             ? new SequentialPhase(enterSteps, _cts.Token)
+        //             : new ParallelPhase(enterSteps, _cts.Token);
+        //         _sequencer.Start();
+        //     };
+        // }
 
+        void BeginTransition(IState from, IState to) {
             // 1. Deactivate the "old branch"
-            var exitSteps = GatherPhaseSteps(exitChain, true);
-            // _sequencer = new NoopPhase();
-            _sequencer = useSequential
-                ? new SequentialPhase(exitSteps, _cts.Token)
-                : new ParallelPhase(exitSteps, _cts.Token);
+            _sequencer = new NoopPhase();
             _sequencer.Start();
 
             _nextPhase = () => {
-                // 2. Change IState
+                // 2. ChangeState
                 machine.ChangeState(from, to);
                 // 3. Activate the "new branch"
-                var enterSteps = GatherPhaseSteps(enterChain, false);
-                // _sequencer = new NoopPhase();
-                _sequencer = useSequential
-                    ? new SequentialPhase(enterSteps, _cts.Token)
-                    : new ParallelPhase(enterSteps, _cts.Token);
+                _sequencer = new NoopPhase();
                 _sequencer.Start();
             };
+
         }
 
         void EndTransition() {

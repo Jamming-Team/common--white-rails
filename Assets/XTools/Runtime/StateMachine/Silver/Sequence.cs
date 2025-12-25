@@ -73,9 +73,9 @@ namespace XTools.SM.Silver {
         }
     }
 
-    // public class NoopPhase : ISequence {
-    //     public bool isDone { get; private set; }
-    //     public void Start() => isDone = true; // Completes immediately
-    //     public bool Update() => isDone;
-    // }
+    public class NoopPhase : ISequence {
+        public bool isDone { get; private set; }
+        public void Start() => isDone = true; // Completes immediately
+        public bool Update() => isDone;
+    }
 }

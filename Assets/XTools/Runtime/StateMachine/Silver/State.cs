@@ -69,9 +69,9 @@ namespace XTools.SM.Silver {
         bool _isRoot => this is IRootState;
 
 
-        public void AddActivity(IActivity a) {
-            if (a != null) _activities.Add(a);
-        }
+        // public void AddActivity(IActivity a) {
+        //     if (a != null) _activities.Add(a);
+        // }
 
         protected virtual IState GetInitialState() => _initialStateIndex >= 0
             ? _children[_initialStateIndex]

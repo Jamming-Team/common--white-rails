@@ -8,13 +8,10 @@ namespace XTools {
     [RequireComponent(typeof(Button))]
     public class UIViewButton : MonoBehaviour {
         [SerializeField] XToolsEvents.UIButtonTypes _buttonType;
-        [SerializeField] bool _hasSounds;
 
-        [SerializeField] [ShowIf("_hasSounds")]
         SoundData _onHoverSoundData;
 
-        [SerializeField] [ShowIf("_hasSounds")]
-        SoundData _onClickSoundData;
+//        SoundData _onClickSoundData;
 
         [Inject] AudioManager _audioManager;
         Button _buttonReference;
@@ -36,7 +33,7 @@ namespace XTools {
         }
 
         public void OnPointerEnter(PointerEventData eventData) {
-            if (_hasSounds) _audioManager.PlaySound(_onHoverSoundData);
+            if (_onHoverSoundData != null) _audioManager.PlaySound(_onHoverSoundData);
         }
     }
 }
