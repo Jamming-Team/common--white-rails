@@ -1,17 +1,29 @@
 using System;
+using UnityEngine;
 
 namespace XTools.SM.White {
     [Serializable]
     public class Transition {
-        public IState from;
-        public IState to;
-        
-        public IPredicate condition;
+        [SerializeField]
+        MonoBehaviour _from;
+        public IState from => _from as IState;
+        [SerializeField]
+        MonoBehaviour _to;
+        public IState to => _to as IState;
+        [SerializeField]
+        MonoBehaviour _condition;
+        public IPredicate condition => _condition as IPredicate;
         
         IState _parentState;
         
-        internal void SetParent(IState parent) {
+
+        internal void Init(IState parent) {
             _parentState = parent;
+
+            var fieldsAreValid = _from is IState && _to is IState && _condition is IPredicate;
+            
+            if (!fieldsAreValid)
+                Debug.LogError("Transition fields are not valid!");
         }
         
         public void Enable() {

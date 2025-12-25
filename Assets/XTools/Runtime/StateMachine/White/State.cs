@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace XTools.SM.White {
     public interface IState {
@@ -14,18 +16,22 @@ namespace XTools.SM.White {
         void SetupRecursively(StateMachine machine, Object context, IState parent = null);
         IEnumerable<IState> PathToRoot();
         IState Leaf();
+        string GetName();
     }
 
-
+    [Serializable]
+    public class Test {
+        public int a;
+    }
+    
     public abstract class State<TContext, TTarget> : MonoBehaviour, IState where TTarget : IState where TContext : Object {
         public StateMachine machine { get; set; }
         public IState parent { get; set; }
         public IState activeChild { get; set; }
 
-        [SerializeField] IState _initialState;
+        [SerializeField] State<TContext, TTarget> _initialState;
 
-        [SerializeField]
-        List<Transition> _transitions = new();
+        public List<Transition> _transitions = new();
 
         [SerializeField] List<TTarget> _children = new();
 
@@ -56,9 +62,10 @@ namespace XTools.SM.White {
             return trueChildren;
         }
 
-        public void SetupRecursively(StateMachine machine, Object context, IState parent = null) {
+        public virtual void SetupRecursively(StateMachine machine, Object context, IState parent = null) {
             this.machine = machine;
             this.parent = parent;
+            InitTransitions();
 
             if (context != null && context is TContext ctx) _context = ctx;
 
@@ -113,9 +120,13 @@ namespace XTools.SM.White {
             for (var s = this as IState; s != null; s = s.parent) yield return s;
         }
 
-        void SetTransitionsParent() {
-            Debug.Log(GetChildren());
-            foreach (var transition in _transitions) transition.SetParent(this);
+        void InitTransitions() {
+            // Debug.Log(GetChildren());
+            foreach (var transition in _transitions) transition.Init(this);
+        }
+
+        public string GetName() {
+            return name;
         }
     }
 }

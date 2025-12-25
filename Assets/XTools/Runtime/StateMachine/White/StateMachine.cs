@@ -1,25 +1,30 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 namespace XTools.SM.White {
     public class StateMachine : MonoBehaviour {
         [SerializeField] bool _debug;
-
+        [SerializeField] string _currentState;
+        
+        public IState lastState { get; private set; }
         public TransitionSequencer sequencer { get; private set; }
-        [SerializeField] Object _context;
-        [SerializeField] IState _root;
+        [SerializeField] MonoBehaviour _root;
+        public IState root => _root as IState;
 
         bool _started;
 
-        void StartSM() {
+        public void StartSM(Object context) {
             if (_started) return;
-
+            if (!(_root is IState))
+                Debug.LogError("Root state must implement IState!");
+            
             sequencer = new TransitionSequencer(this);
             // Wire(_root, this, new HashSet<IState>());
-            _root.SetupRecursively(this, _context);
+            root.SetupRecursively(this, context);
             _started = true;
-            _root.Enter();
+            root.Enter();
         }
 
         // Separate those for introducing sequencing
@@ -31,12 +36,13 @@ namespace XTools.SM.White {
         }
 
         internal void InternalTick(float deltaTime) {
-            _root.UpdateState(deltaTime);
+            root.UpdateState(deltaTime);
         }
 
         // Perform the actual switch from 'from' to 'to' by exiting up to the shared ancestor, then entering down to the target
         public void ChangeState(IState from, IState to) {
             if (from == to || from == null || to == null) return;
+            lastState = from;
 
             var lca = TransitionSequencer.Lca(from, to);
 
@@ -48,8 +54,10 @@ namespace XTools.SM.White {
             for (var s = to; s != lca; s = s.parent) stack.Push(s);
             while (stack.Count > 0) stack.Pop().Enter();
 
+            _currentState = to.GetName();
+            
             if (_debug)
-                Debug.Log($"State path: {StatePath(_root.Leaf())}");
+                Debug.Log($"State path: {StatePath(root.Leaf())}");
         }
 
         static string StatePath(IState state) {

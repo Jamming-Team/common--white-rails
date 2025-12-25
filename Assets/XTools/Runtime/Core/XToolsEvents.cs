@@ -5,10 +5,10 @@ namespace XTools {
         
         public static Action<UIButtonTypes> UIButtonPressed = delegate(UIButtonTypes _) {}; 
         public enum UIButtonTypes {
-            Back,
             One,
             Two,
             Three,
+            Back,
         }
         
     }
