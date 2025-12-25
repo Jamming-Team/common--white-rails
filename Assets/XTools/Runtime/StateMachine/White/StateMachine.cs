@@ -35,7 +35,7 @@ namespace XTools.SM.White {
         }
 
         // Perform the actual switch from 'from' to 'to' by exiting up to the shared ancestor, then entering down to the target
-        public void ChangeState(Silver.IState from, Silver.IState to) {
+        public void ChangeState(IState from, IState to) {
             if (from == to || from == null || to == null) return;
 
             var lca = TransitionSequencer.Lca(from, to);
@@ -44,7 +44,7 @@ namespace XTools.SM.White {
             for (var s = from; s != lca; s = s.parent) s.Exit();
 
             // Enter target branch from LCA down to target
-            var stack = new Stack<Silver.IState>();
+            var stack = new Stack<IState>();
             for (var s = to; s != lca; s = s.parent) stack.Push(s);
             while (stack.Count > 0) stack.Pop().Enter();
 

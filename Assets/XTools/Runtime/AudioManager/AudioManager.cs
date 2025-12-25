@@ -32,8 +32,8 @@ namespace XTools {
 
             _dataSo = initData.dataManager.GetData<AudioDataSO>();
             AdjustMixerVolume();
-            _musicModel = new MusicModel(_dataSo.music,
-                new MusicModel.MusicSourcesPair { sourceOne = _musicSources[0], sourceTwo = _musicSources[1] });
+            if (_dataSo.music.hasMusic)
+                _musicModel = new MusicModel(_dataSo.music, new MusicModel.MusicSourcesPair { sourceOne = _musicSources[0], sourceTwo = _musicSources[1] });
 
             // Subscribe the data event
 
@@ -51,8 +51,9 @@ namespace XTools {
 
         void Update(float delta) {
             if (!_initialized) return;
-
-            _musicModel.CheckForCrossFade();
+            
+            if (_dataSo.music.hasMusic)
+                _musicModel.CheckForCrossFade();
         }
 
         // void Start() {

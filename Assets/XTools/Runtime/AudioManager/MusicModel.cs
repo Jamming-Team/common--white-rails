@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace XTools {
@@ -9,8 +10,8 @@ namespace XTools {
         AudioSource _previous;
         readonly MusicData _musicData;
         MusicBundleType _curType;
-        List<AudioClip> _curBundle => _musicData.bundles[_curType].audioClips;
-        bool _playOnLoop => _musicData.bundles[_curType].shouldLoopFirstClip;
+        List<AudioClip> _curBundle => _musicData.bundles.Find(x => x.type == _curType).audioClips;
+        bool _playOnLoop => _musicData.bundles.Find(x => x.type == _curType).shouldLoopFirstClip;
         float _crossFadeTime => _musicData.crossFadeTime;
         readonly MusicSourcesPair _musicSourcesPair;
         bool _sourcesAreReversed = true;
