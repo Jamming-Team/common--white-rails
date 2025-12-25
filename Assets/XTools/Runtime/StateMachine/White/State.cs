@@ -14,6 +14,7 @@ namespace XTools.SM.White {
         void UpdateState(float deltaTime);
         List<IState> GetChildren();
         void SetupRecursively(StateMachine machine, Object context, IState parent = null);
+        void AddTransition(IState from, Type to, IPredicate condition);
         IEnumerable<IState> PathToRoot();
         IState Leaf();
         string GetName();
@@ -70,6 +71,14 @@ namespace XTools.SM.White {
             if (context != null && context is TContext ctx) _context = ctx;
 
             foreach (var child in _children) child.SetupRecursively(machine, _context, this);
+        }
+
+        public void AddTransition(IState from, Type to, IPredicate condition) {
+            var targetState = GetChildren().Find(x => x.GetType() == to);
+            var newTransition = new Transition(false);
+            newTransition.SetFields(this, targetState, condition);
+            newTransition.Init(this);
+            _transitions.Add(newTransition);
         }
 
         // Lifecycle hooks
