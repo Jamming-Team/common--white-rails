@@ -119,6 +119,64 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &29627476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 29627479}
+  - component: {fileID: 29627478}
+  - component: {fileID: 29627477}
+  m_Layer: 0
+  m_Name: 'Service Locator [Global]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &29627477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29627476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 913438035}
+  m_Name: 
+  m_EditorClassIdentifier: XTools::XTools.ServiceLocatorGlobalBootstrapper
+  _dontDestroyOnLoad: 1
+--- !u!114 &29627478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29627476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c665ab6bda460190c3a76a1baf9944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: XTools::XTools.ServiceLocator
+--- !u!4 &29627479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29627476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &336633219
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,37 +703,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _soundModel: {fileID: 0}
---- !u!1 &736271184
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 736271185}
-  m_Layer: 0
-  m_Name: = Scene
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &736271185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736271184}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &793737450
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,6 +754,21 @@ MonoBehaviour:
   _defaultCapacity: 10
   _maxPoolSize: 100
   _maxSoundInstances: 30
+--- !u!115 &913438035
+MonoScript:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 7
+  m_DefaultReferences: {}
+  m_Icon: {fileID: 0}
+  m_Type: 0
+  m_ExecutionOrder: 0
+  m_ClassName: ServiceLocatorGlobalBootstrapper
+  m_Namespace: XTools
+  m_AssemblyName: XTools
 --- !u!1 &948391237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,7 +1243,7 @@ SceneRoots:
   - {fileID: 433306269}
   - {fileID: 2005825625}
   - {fileID: 1341849845}
-  - {fileID: 736271185}
+  - {fileID: 29627479}
   - {fileID: 1823116519}
   - {fileID: 2026678856}
   - {fileID: 948391238}

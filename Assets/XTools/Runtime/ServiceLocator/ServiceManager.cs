@@ -40,6 +40,22 @@ namespace XTools {
 
             return this;
         }
+        
+        public ServiceManager Deregister<T>(T service) {
+            Type type = typeof(T);
+            
+            if (!_services.TryGetValue(type, out object obj) || obj.Equals(service)) {
+                Debug.LogError("Service isn't registered: " + type);
+            }
+            else {
+                _services.Remove(type);
+            }
+            
+
+            return this;
+        }
+        
+        
 
         // The same as above BUT:
         // For the case when a service implements several types
@@ -51,6 +67,21 @@ namespace XTools {
 
             if (!_services.TryAdd(type, service)) {
                 Debug.LogError("Service already registered: " + type);
+            }
+
+            return this;
+        }
+        
+        public ServiceManager Deregister(Type type, object service) {
+            if (!type.IsInstanceOfType(service)) {
+                throw new ArgumentException(type + " is not an instance of " + service.GetType());
+            }
+
+            if (!_services.TryGetValue(type, out object obj) || obj.Equals(service)) {
+                Debug.LogError("Service isn't registered: " + type);
+            }
+            else {
+                _services.Remove(type);
             }
 
             return this;

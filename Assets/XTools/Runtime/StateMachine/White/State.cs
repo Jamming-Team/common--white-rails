@@ -36,7 +36,7 @@ namespace XTools.SM.White {
 
         [SerializeField] List<TTarget> _children = new();
 
-        TContext _context;
+        protected TContext _context;
 
         protected virtual IState GetInitialState() {
             return _initialState;

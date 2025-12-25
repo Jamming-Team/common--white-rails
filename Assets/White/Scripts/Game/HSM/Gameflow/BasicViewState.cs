@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using XTools.SM.White;
 
-namespace White.UI.SM {
-    public class BasicViewState : State<UIManager, BasicViewState> {
+namespace White {
+    public class GameflowStateBase : State<GameManager, GameflowStateBase> {
         [SerializeField] List<GameObject> _views;
 
         public override void SetupRecursively(StateMachine machine, Object context, IState parent = null) {

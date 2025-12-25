@@ -103,6 +103,18 @@ namespace XTools {
             OnRegistered.Invoke(service.GetType());
             return this;
         }
+        
+        public ServiceLocator Deregister<T>(T service) {
+            _services.Deregister(service);
+            OnDeregistered.Invoke(service.GetType());
+            return this;
+        }
+        
+        public ServiceLocator Deregister(Type type, object service) {
+            _services.Deregister(type, service);
+            OnDeregistered.Invoke(service.GetType());
+            return this;
+        }
 
         public ServiceLocator Get<T>(out T service) where T : class {
             if (TryGetService(out service)) return this;
