@@ -20,7 +20,7 @@ namespace XTools {
             _view = view;
         }
         
-        public void TryLoadScene(string sceneName, bool withAnims = false) {
+        public void TryLoadSceneAsync(string sceneName, bool withAnims = false) {
             if (_isLoading) return;
 
             GameLoopCenter.Instance.StartCoroutine(LoadSceneAsync(sceneName, withAnims));
@@ -36,7 +36,7 @@ namespace XTools {
 
             _view.cameraRef.SetActive(true);
             
-            GameLoopCenter.Instance.StartCoroutine(_model.LoadScene(sceneName));
+            GameLoopCenter.Instance.StartCoroutine(_model.LoadSceneAsync(sceneName, true));
 
             // yield return modelCor;
             yield return new WaitUntil(() => !_model.inProgress);

@@ -8,9 +8,25 @@ namespace XTools {
     internal class SceneLoaderM {
         public bool inProgress { get; private set; }
         
-        public IEnumerator LoadScene(string sceneNameToLoad) {
+        public IEnumerator LoadSceneAsync(string sceneNameToLoad, bool unloadOtherScenes) {
             inProgress = true;
             
+            // GameLoopCenter.Instance.StartCoroutine(UnloadScenesAsync());
+            if (unloadOtherScenes) yield return UnloadScenesAsync();
+
+            // Scene scenee;
+            yield return SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
+
+            
+            var activeScene = SceneManager.GetSceneByName(sceneNameToLoad);
+
+            if (activeScene.IsValid()) SceneManager.SetActiveScene(activeScene);
+            
+            inProgress = false;
+            
+        }
+
+        IEnumerator UnloadScenesAsync() {
             var scenes = new List<string>();
             var sceneCount = SceneManager.sceneCount;
 
@@ -29,17 +45,6 @@ namespace XTools {
             // Optional: UnloadUnusedAssets - unloads all unused assets from memory
             GC.Collect();
             yield return Resources.UnloadUnusedAssets();
-
-            // Scene scenee;
-            yield return SceneManager.LoadSceneAsync(sceneNameToLoad, LoadSceneMode.Additive);
-
-            
-            var activeScene = SceneManager.GetSceneByName(sceneNameToLoad);
-
-            if (activeScene.IsValid()) SceneManager.SetActiveScene(activeScene);
-            
-            inProgress = false;
-            
         }
     }
 }

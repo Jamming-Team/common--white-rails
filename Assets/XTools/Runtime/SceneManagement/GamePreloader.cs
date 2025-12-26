@@ -9,7 +9,7 @@ namespace XTools {
         [Inject] SceneLoader _sceneLoader;
         
         void Start() {
-            _sceneLoader.TryLoadScene(_initialSceneName);
+            _sceneLoader.TryLoadSceneAsync(_initialSceneName);
         }
     }
 }
