@@ -51,6 +51,8 @@ namespace XTools {
             _view.cameraRef.SetActive(false);
             
             _isLoading = false;
+            
+            
         }
 
     }
